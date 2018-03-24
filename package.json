@@ -1,0 +1,29 @@
+{
+  "name": "mkinterface",
+  "version": "1.0.0",
+  "description": "Make Solidity interface contracts",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chiro-hiro/mkinterface.git"
+  },
+  "keywords": [
+    "solidity",
+    "interface",
+    "truffle",
+    "contract"
+  ],
+  "author": "Dũng Trần",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/chiro-hiro/mkinterface/issues"
+  },
+  "homepage": "https://github.com/chiro-hiro/mkinterface#readme",
+  "dependencies": {
+    "solc": "^0.4.21",
+    "yargs": "^11.0.0"
+  }
+}
