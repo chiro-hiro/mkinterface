@@ -24,17 +24,38 @@ var argv = yargs.argv;
 var files = argv._;
 var destination = argv['output-dir'] || '.'
 
-console.log(path.resolve(destination));
-
-if(files.length > 0){
-    files.forEach((filePath)=>{
-        if(!fs.existsSync(filePath)){
-            console.log('File', filePath, 'not existed.');
-            process.exit(1);
-        }else{
-            var fullFilePath = path.resolve(filePath);
-            var fileName = path.basename(filePath, '.sol');
-            console.log(fileName, fullFilePath);
-        }
-    });
+if (!fs.existsSync(destination)) {
+    fs.mkdirSync(destination);
 }
+
+if (!fs.existsSync(destination)) {
+    console.log('Can not create destination');
+    process.exit(2);
+}
+
+if (files.length <= 0) {
+    console.log('There are no input files');
+    process.exit(3);
+}
+
+var input = {};
+var fileName = '';
+var filePath = '';
+
+for (index in files) {
+    filePath = files[index];
+    if (!fs.existsSync(filePath)) {
+        console.log('File', filePath, 'not existed.');
+        process.exit(1);
+    }
+    //Get basename
+    fileName = path.basename(filePath);
+    //Build the input
+    input[fileName] = fs.readFileSync(filePath).toString();
+}
+
+var output = solc.compile({sources: input}, 1, function(){
+
+});
+
+console.log(input, output);
