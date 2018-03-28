@@ -1,8 +1,11 @@
 {
   "name": "mkinterface",
-  "version": "1.0.0",
-  "description": "Make Solidity interface contracts",
+  "version": "1.0.1",
+  "description": "Make interfaces of smart contracts",
   "main": "index.js",
+  "bin": {
+    "mkinterface": "./index.js"
+  },
   "scripts": {
     "test": "mocha"
   },
@@ -22,8 +25,4 @@
     "url": "https://github.com/chiro-hiro/mkinterface/issues"
   },
   "homepage": "https://github.com/chiro-hiro/mkinterface#readme",
-  "dependencies": {
-    "solc": "^0.4.21",
-    "yargs": "^11.0.0"
-  }
 }
