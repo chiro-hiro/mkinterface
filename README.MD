@@ -1,6 +1,6 @@
 # MkInterface
 
-Make interfaces of smart contracts
+Make smart contract interfaces
 
 ## Installation
 
@@ -26,7 +26,7 @@ Write your own configuration (`mkiconf.json`), at root of truffle project:
     "output": "./MyTokenInterface.sol"
 }]
 ```
-Build interface with `mkinterface`, result:
+Execute `mkinterface` at the root directory then you will get result:
 ```javascript
 pragma solidity ^0.4.18;
 
