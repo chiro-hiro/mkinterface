@@ -5,7 +5,7 @@ Make interfaces of smart contracts
 ## Installation
 
 ```
-npm install -g mkinsterface
+npm install -g mkinterface
 ```
 
 ## Require truffle
@@ -53,3 +53,7 @@ contract MyTokenInterface {
     function decreaseApproval(address _spender, uint256 _subtractedValue) public returns (bool success);
 }
 ```
+
+# License
+
+This sofware distributed under [MIT License](https://github.com/chiro-hiro/mkinterface/blob/master/LICENSE)
