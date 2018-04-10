@@ -84,9 +84,8 @@ function makeInterface(config) {
         var conf = config[index];
         var stack = ['pragma solidity ' + conf.solv + ';\n', 'contract ' + conf.contract + ' {'];
         var subject = { events: [], eventNames: [], functions: [], functionNames: [] };
-        for (var fileIndex in conf.entries) {
-            interfaceBuild(readJSON(path.join(conf.path, conf.entries[fileIndex])), subject);
-        }
+        interfaceBuild(readJSON(path.join(conf.path, conf.entry)), subject);
+        
         stack.push('    //Events');
         stack.push('    ' + subject.events.join('\n    '));
         stack.push('    //Public methods');
