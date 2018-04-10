@@ -23,13 +23,13 @@ Write your own configuration (`mkiconf.json`), at root of truffle project:
     "path": "./build/contracts",
     "entry": "PausableToken.json",
     "contract": "PausableTokenInterface",
-    "output": "./contracts/interfaces/PausableTokenInterface.sol"
+    "output": "./PausableTokenInterface.sol"
 },{
     "solv": "^0.4.18",
     "path": "./build/contracts",
     "entry": "Crowdsale.json",
     "contract": "CrowdsaleInterface",
-    "output": "./contracts/interfaces/CrowdsaleInterface.sol"
+    "output": "./CrowdsaleInterface.sol"
 }]
 ```
 Execute `mkinterface` at the root directory then you will get result:
