@@ -21,7 +21,7 @@ Write your own configuration (`mkiconf.json`), at root of truffle project:
 [{
     "solv": "^0.4.18",
     "path": "./build/contracts",
-    "entries": ["Ownable.json", "Pausable.json", "PausableToken.json", "ERC20.json", "ERC20Basic.json", "StandardToken.json"],
+    "entries": ["MyTokenInterface.json"],
     "contract": "MyTokenInterface",
     "output": "./MyTokenInterface.sol"
 }]
