@@ -1,6 +1,6 @@
 {
   "name": "mkinterface",
-  "version": "1.0.4",
+  "version": "1.0.6",
   "description": "Make smart contract interfaces",
   "main": "index.js",
   "bin": {
