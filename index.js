@@ -3,8 +3,6 @@
 'use strict';
 var fs = require('fs');
 var path = require('path');
-var { exec } = require('child_process');
-var truffle = exec('truffle compile');
 
 //Read json from file
 function readJSON(file) {
@@ -59,13 +57,13 @@ function interfaceBuild(jsonData, subject) {
                 var method = element.type + ' '
                     + element.name
                     + inputBuild(element.inputs) + ' '
-                    + modifierBuild(element) + ((element.outputs.length > 0) ? ' ': '')
+                    + modifierBuild(element) + ((element.outputs.length > 0) ? ' ' : '')
                     + outputBuild(element.outputs) + ';';
                 if (subject.functionNames.indexOf(element.name) < 0) {
                     subject.functionNames.push(element.name);
                     subject.functions.push(method);
                 }
-            } else if(element.type === 'event') {
+            } else if (element.type === 'event') {
                 var emit = element.type + ' '
                     + element.name
                     + inputBuild(element.inputs) + ';'
@@ -82,39 +80,26 @@ function interfaceBuild(jsonData, subject) {
 function makeInterface(config) {
     for (var index in config) {
         var conf = config[index];
-        var stack = ['pragma solidity ' + conf.solv + ';\n', 'contract ' + conf.contract + ' {'];
-        var subject = { events: [], eventNames: [], functions: [], functionNames: [] };
-        interfaceBuild(readJSON(path.join(conf.path, conf.entry)), subject);
-        
-        stack.push('    //Events');
-        stack.push('    ' + subject.events.join('\n    '));
-        stack.push('    //Public methods');
-        stack.push('    ' + subject.functions.join('\n    '));
-        stack.push('}');
-        console.log(`${conf.output} built successful`);
-        fs.writeFileSync(conf.output, stack.join('\n'));
+        if (fs.existsSync(path.join(conf.path, conf.entry))) {
+            var stack = ['pragma solidity ' + conf.solv + ';\n', 'contract ' + conf.contract + ' {'];
+            var subject = { events: [], eventNames: [], functions: [], functionNames: [] };
+            interfaceBuild(readJSON(path.join(conf.path, conf.entry)), subject);
+            stack.push('    //Events');
+            stack.push('    ' + subject.events.join('\n    '));
+            stack.push('    //Public methods');
+            stack.push('    ' + subject.functions.join('\n    '));
+            stack.push('}');
+            console.log(`${conf.output} built successful`);
+            fs.writeFileSync(conf.output, stack.join('\n'));
+        } else {
+            console.log(`${path.join(conf.path, conf.entry)} wasn't existed`);
+        }
     }
 }
 
-truffle.stdout.on('data', (data) => {
-    console.log(data.toString());
-});
-
-truffle.stderr.on('data', (data) => {
-    console.log(data.toString());
-});
-
-truffle.on('exit', (code) => {
-    if (code === 0) {
-        if (fs.existsSync('./mkiconf.json')) {
-            var configuration = readJSON('./mkiconf.json');
-            if (configuration.length > 0) {
-                makeInterface(configuration);
-            }
-        }
-    }else{
-        throw new Error('Truffle compiler was not working');
+if (fs.existsSync('./mkiconf.json')) {
+    var configuration = readJSON('./mkiconf.json');
+    if (configuration.length > 0) {
+        makeInterface(configuration);
     }
-});
-
-
+}

@@ -32,7 +32,8 @@ Write your own configuration (`mkiconf.json`), at root of truffle project:
     "output": "./CrowdsaleInterface.sol"
 }]
 ```
-Execute `mkinterface` at the root directory then you will get result:
+The first, you need compile smart contracts by execute `truffle compile`, then
+execute `mkinterface` at the root directory then you will get result:
 
 `MyTokenInterface.sol`
 ```javascript
