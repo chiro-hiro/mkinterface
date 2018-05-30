@@ -4,6 +4,35 @@
 var fs = require('fs');
 var path = require('path');
 
+//Conver string version to numberic
+function toVersion(version) {
+    return version.replace('^', '').split('.').map((item) => {
+        return parseInt(item);
+    });
+}
+
+//Compare version string a to b
+function versionCompare(a, b) {
+    a = toVersion(a);
+    b = toVersion(b);
+    let c = [];
+    let r = 0;
+    for (let i = 0; i < a.length; i++) {
+        c[i] = a[i] - b[i];
+    }
+    for (let i = 0; i < c.length; i++) {
+        if(c[i] > 0){
+            r = 1;
+            break;
+        }
+        if(c[i] < 0){
+            r = -1;
+            break;
+        }
+    }
+    return r;
+}
+
 //Read json from file
 function readJSON(file) {
     return JSON.parse(fs.readFileSync(file));
