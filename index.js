@@ -72,7 +72,7 @@ function outputBuild(output) {
 function modifierBuild(element) {
     var stack = [];
     stack.push('public');
-    if (element.constant) stack.push('constant');
+    if (element.constant) stack.push('view');
     if (element.payable) stack.push('payable');
     return stack.join(' ');
 }
