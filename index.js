@@ -4,35 +4,6 @@
 var fs = require('fs');
 var path = require('path');
 
-//Conver string version to numberic
-function toVersion(version) {
-    return version.replace('^', '').split('.').map((item) => {
-        return parseInt(item);
-    });
-}
-
-//Compare version string a to b
-function versionCompare(a, b) {
-    a = toVersion(a);
-    b = toVersion(b);
-    let c = [];
-    let r = 0;
-    for (let i = 0; i < a.length; i++) {
-        c[i] = a[i] - b[i];
-    }
-    for (let i = 0; i < c.length; i++) {
-        if(c[i] > 0){
-            r = 1;
-            break;
-        }
-        if(c[i] < 0){
-            r = -1;
-            break;
-        }
-    }
-    return r;
-}
-
 //Read json from file
 function readJSON(file) {
     return JSON.parse(fs.readFileSync(file));
@@ -105,30 +76,58 @@ function interfaceBuild(jsonData, subject) {
     }
 }
 
-//Make interface and save to file
-function makeInterface(config) {
-    for (var index in config) {
-        var conf = config[index];
-        if (fs.existsSync(path.join(conf.path, conf.entry))) {
-            var stack = ['pragma solidity ' + conf.solv + ';\n', 'contract ' + conf.contract + ' {'];
-            var subject = { events: [], eventNames: [], functions: [], functionNames: [] };
-            interfaceBuild(readJSON(path.join(conf.path, conf.entry)), subject);
-            stack.push('    //Events');
-            stack.push('    ' + subject.events.join('\n    '));
-            stack.push('    //Public methods');
-            stack.push('    ' + subject.functions.join('\n    '));
-            stack.push('}');
-            console.log(`${conf.output} built successful`);
-            fs.writeFileSync(conf.output, stack.join('\n'));
-        } else {
-            console.log(`${path.join(conf.path, conf.entry)} wasn't existed`);
+function scanDir(scanPath, filelist){
+    var filelist = filelist || [];
+    var dirs = fs.readdirSync(scanPath);
+    for(var i = 0; i < dirs.length; i++){
+        var _childPath = path.resolve(scanPath, dirs[i])
+        if(fs.statSync(_childPath).isDirectory()){
+            scanDir(_childPath, filelist);
+        }else{
+            filelist.push(_childPath);
         }
     }
+    return filelist;
+
 }
 
-if (fs.existsSync('./mkiconf.json')) {
-    var configuration = readJSON('./mkiconf.json');
-    if (configuration.length > 0) {
-        makeInterface(configuration);
+(function () {
+    var currentPath = process.cwd();
+    var buildPath = path.resolve(currentPath, 'build');
+    var contractsPath = path.resolve(currentPath, 'contracts');
+    var interfacesPath = path.resolve(contractsPath, 'interfaces');
+    if(fs.existsSync(buildPath)){
+        if(fs.existsSync(contractsPath)){
+            if(!fs.existsSync(interfacesPath)){
+                fs.mkdirSync(interfacesPath);
+            }
+            if(fs.existsSync(interfacesPath)){
+                var filelist = scanDir(buildPath);
+                for(var i = 0; i < filelist.length; i++){
+                    var jsonData = readJSON(filelist[i]);
+                    var contractName = jsonData.contractName;
+                    var contractInferfaceName = jsonData.contractName + 'Interface';
+                    var contractInferfaceFile = jsonData.contractName + 'Interface.sol';
+                    if(jsonData.contractName.indexOf('Interface') < 0) {
+                        var stack = ['pragma solidity ^0.4.24;\n', 'contract ' + contractInferfaceName + ' {'];
+                        var subject = { events: [], eventNames: [], functions: [], functionNames: [] };
+                        interfaceBuild(jsonData, subject);
+                        stack.push('    //Events');
+                        stack.push('    ' + subject.events.join('\n    '));
+                        stack.push('    //Public methods');
+                        stack.push('    ' + subject.functions.join('\n    '));
+                        stack.push('}');
+                        process.stdout.write('Built interface for ' + contractName + '\n');
+                        fs.writeFileSync(path.join(interfacesPath, contractInferfaceFile), stack.join('\n'));
+                    }
+                }
+            }else{
+                process.stderr.write("Interface don't have write access.\n");
+            }
+        }else{
+            process.stderr.write("Contracts folder was not found, is it a truffle project?.\n");
+        }
+    }else{
+        process.stderr.write("Build folder was not found, please try `truffle compile` first.\n");
     }
-}
+})();
