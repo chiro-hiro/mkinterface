@@ -1,7 +1,7 @@
 {
   "name": "mkinterface",
-  "version": "1.2.0",
-  "description": "Make smart contracts's interfaces automatically",
+  "version": "1.4.1",
+  "description": "Generate all interfaces of solidity contracts at once",
   "main": "index.js",
   "bin": {
     "mkinterface": "./index.js"
@@ -19,7 +19,7 @@
     "truffle",
     "contract"
   ],
-  "author": "Dũng Trần",
+  "author": "chiro@fkguru.com",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/chiro-hiro/mkinterface/issues"
