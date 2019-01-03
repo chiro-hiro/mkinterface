@@ -1,13 +1,13 @@
 {
   "name": "mkinterface",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "Generate all interfaces of solidity contracts at once",
   "main": "index.js",
   "bin": {
     "mkinterface": "./index.js"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "echo \"There are no test\""
   },
   "repository": {
     "type": "git",

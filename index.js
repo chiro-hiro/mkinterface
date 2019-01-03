@@ -163,7 +163,7 @@ function configuration() {
     let pragmaRegex = /pragma solidity[\ \^0-9\.\<\>\=]+;/ig;
     let pragmas = fileContent.match(pragmaRegex);
     let foundPragma = Array.isArray(pragmas);
-    if (foundPragma) process.stdout.write(`Found ${fileContent.match(pragmaRegex).join(',')} in ${fileName}\n`);
+    if (foundPragma) process.stdout.write(`Found ${fileContent.match(pragmaRegex).join(',')} in ${path.basename(fileName)}\n`);
     //Update ranger of version
     if (typeof config.minVersion !== 'undefined' && typeof config.maxVersion !== 'undefined') {
       fs.writeFileSync(fileName, fileContent.replace(pragmaRegex, `pragma solidity >= ${config.minVersion} <= ${config.maxVersion};`));

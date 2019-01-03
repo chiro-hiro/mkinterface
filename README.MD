@@ -16,7 +16,7 @@ npm install -g truffle
 
 ## Configuration
 
-This version of `mkinterface` is support `solidity compiler 0.5.0` and `truffle 5.0.0`. For esablishing new feature, we need you to create `mkinterface.json` in the root of your project.
+This version had supported `solidity compiler 0.5.0` and `truffle 5.0.0`. To esablishing new feature, we need you to create `mkinterface.json` in the root of your project.
 
 **E.g**
 
