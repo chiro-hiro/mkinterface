@@ -1,6 +1,6 @@
 # MkInterface
 
-A tool for laziers to update all interfaces of smart contracts at once.
+A tool for lazy guys to update all interfaces of smart contracts at once.
 
 ## Installation
 
@@ -44,7 +44,7 @@ This version had supported `solidity compiler 0.5.0` and `truffle 5.0.0`. To esa
 
 ### Solc compatible
 
-New version of `solc` have some changes, old version of contract's interface won't work.
+New version of `solc` have some changes, old version of contract's interface won't work properly.
 
 **E.g.**
 
